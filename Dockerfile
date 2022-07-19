@@ -1,6 +1,6 @@
 ARG arch=x86_64
 
-FROM tiltedphoques/builder:${arch} AS builder
+FROM tiltedphoques/builder AS builder
 
 ARG arch
 # ARG TARGETARCH
