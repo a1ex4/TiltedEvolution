@@ -1,10 +1,10 @@
 ARG arch=x86_64
 
-FROM tiltedphoques/builder AS builder
+FROM tiltedphoques/builder:${arch} AS builder
 
 ARG arch
-ARG TARGETARCH
-RUN if [ "$TARGETARCH" = "arm64" ] ; then export arch='aarch64'; fi
+# ARG TARGETARCH
+# RUN if [ "$TARGETARCH" = "arm64" ] ; then export arch='aarch64'; fi
 
 WORKDIR /home/server
 
@@ -43,8 +43,8 @@ RUN ~/.local/bin/xmake install -o package
 FROM ubuntu:20.04 AS skyrim
 
 ARG arch
-ARG TARGETARCH
-RUN if [ "$TARGETARCH" = "arm64" ] ; then export arch='aarch64'; fi
+# ARG TARGETARCH
+# RUN if [ "$TARGETARCH" = "arm64" ] ; then export arch='aarch64'; fi
 
 RUN apt update && apt install libssl1.1
 
