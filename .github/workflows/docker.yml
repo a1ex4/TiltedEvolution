@@ -10,7 +10,10 @@ on:
 
 jobs:
   docker:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        targets: [ {arch: 'x86_64', platform: 'linux/amd64'}, {arch: 'aarch64', platform: 'linux/arm64'}]
     steps:
       - name: Docker meta
         id: meta
@@ -35,26 +38,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # - name: Build and push amd64
-      #   uses: docker/build-push-action@v3
-      #   with:
-      #     build-args: |
-      #       BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
-      #       arch=x86_64
-      #     platforms: linux/amd64
-      #     push: true
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
-
-      - name: Build and push arm
+      - name: Build and push ${{ matrix.targets.platform }}
         uses: docker/build-push-action@v3
         with:
           build-args: |
             BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
-            arch=aarch64
-          platforms: linux/arm64
+            arch=${{ matrix.targets.arch }}
+          platforms: ${{ matrix.targets.platform }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
