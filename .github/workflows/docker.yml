@@ -24,7 +24,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            a1ex4/st-reborn-server
+            a1ex4/st-builder
+          flavor: |
+            suffix=-{{ matrix.targets.arch }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=branch
@@ -47,6 +49,7 @@ jobs:
       - name: Build and push ${{ matrix.targets.platform }}
         uses: docker/build-push-action@v3
         with:
+          file: Dockerfile.builder
           build-args: |
             BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
             arch=${{ matrix.targets.arch }}
