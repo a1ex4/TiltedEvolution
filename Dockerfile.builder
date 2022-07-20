@@ -25,7 +25,7 @@ USER ruki
 RUN cd /tmp/ && git clone --depth=1 "https://github.com/xmake-io/xmake.git" --recursive xmake && cd xmake && ./scripts/get.sh __local__
 RUN rm -rf /tmp/xmake
 
-RUN curl -fsSL https://xmake.io/shget.text > getxmake.sh && chmod +x getxmake.sh && ./getxmake.sh
+# RUN curl -fsSL https://xmake.io/shget.text > getxmake.sh && chmod +x getxmake.sh && ./getxmake.sh
 
 # RUN wget ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-12.1.0/gcc-12.1.0.tar.xz && \
 #     tar xf gcc-12.1.0.tar.xz && \
