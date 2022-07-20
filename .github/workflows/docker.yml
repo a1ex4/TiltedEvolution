@@ -26,7 +26,7 @@ jobs:
           images: |
             a1ex4/st-builder
           flavor: |
-            suffix=-{{ matrix.targets.arch }}
+            suffix=-${{ matrix.targets.arch }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=branch
