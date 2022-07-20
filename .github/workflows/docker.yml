@@ -10,7 +10,7 @@ on:
 
 jobs:
   docker:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         targets:
@@ -30,14 +30,6 @@ jobs:
             type=ref,event=branch
             type=semver,pattern={{version}}
 
-      - name: Set up Docker
-        uses: docker-practice/actions-setup-docker@master
-
-      - run: |
-          set -x
-          docker version
-          docker run --rm hello-world
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -52,16 +44,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # - name: Build and push ${{ matrix.targets.platform }}
-      #   uses: docker/build-push-action@v3
-      #   with:
-      #     build-args: |
-      #       BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
-      #       arch=${{ matrix.targets.arch }}
-      #       build_dir=${{ matrix.targets.build_dir }}
-      #     platforms: ${{ matrix.targets.platform }}
-      #     push: true
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
+      - name: Build and push ${{ matrix.targets.platform }}
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
+            arch=${{ matrix.targets.arch }}
+            build_dir=${{ matrix.targets.build_dir }}
+          platforms: ${{ matrix.targets.platform }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
