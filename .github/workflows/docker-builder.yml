@@ -1,9 +1,6 @@
 name: Build docker
 
-on:
-  push:
-    branches:
-      - "gh-builder"
+on: workflow_dispatch
 
 jobs:
   docker:
